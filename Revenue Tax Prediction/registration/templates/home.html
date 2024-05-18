@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <title>Tax Predictor</title>
+    {%load static%}
+
+          
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    
+</head>
+<body class="bg-dark"style=" background-size: cover; background-position: center; margin-top:8em;">
+<div class="container">
+    <div class="row">
+        <div class="card mt-50" style="width: 100%; height: 100%">
+            <div class="card-header" style="text-align: center">
+                <h1>Revenue Services Lesotho Tax Predictor</h1>
+            </div>
+            <div class="card-body">
+                <div class="col-12" style="text-align: center">
+                </div>
+                <br>
+                <form method="post" accept-charset="utf-8" name="Modelform">
+                    {% csrf_token %}
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select revenue Category:</b></label><br>
+                        <select class="selectpicker form-control" id="revenue_category" name="revenue_category" onclick="vula()" required="1">
+                            <optgroup label="Taxes">
+                                <option value="" selected disabled>Select Tax category</option>
+                               
+                                    <option value="1000 Taxes on income, profits and capital gains">1000 Taxes on income, profits and capital gains</option>
+                                    <option value="1100 Taxes on income, profits and capital gains of individuals">1100 Taxes on income, profits and capital gains of individuals</option>
+                                    <option value="1110 On income and profits of individuals">1110 On income and profits of individuals</option>
+                                    <option value="1120 On capital gains of individuals">1120 On capital gains of individuals</option>
+                                    <option value="1200 Taxes on income, profits and capital gains of corporates">1200 Taxes on income, profits and capital gains of corporates</option>
+                                    <option value="1210 On profits of corporates">1210 On profits of corporates</option>
+                                    <option value="1220 On capital gains of corporates">1220 On capital gains of corporates</option>
+                                    <option value="1300 Unallocable between 1100 and 1200">1300 Unallocable between 1100 and 1200</option>
+                                    <option value="2000 Social security contributions (SSC)">2000 Social security contributions (SSC)</option>
+                                    <option value="3000 Taxes on payroll and workforce">3000 Taxes on payroll and workforce</option>
+                                    <option value="5000 Taxes on goods and services">5000 Taxes on goods and services</option>
+                                    <option value="5100 Taxes on production, sale, transfer, etc">5100 Taxes on production, sale, transfer, etc</option>
+                                    <option value="5110 General taxes on goods and services">5110 General taxes on goods and services</option>
+                                    <option value="5111 Value added taxes">5111 Value added taxes</option>
+                                    <option value="5112 Sales tax">5112 Sales tax</option>
+                                    <option value="5113 Other (than value added and sales tax)">5113 Other (than value added and sales tax)</option>
+                                    <option value="5120 Taxes on specific goods and services">5120 Taxes on specific goods and services</option>
+                                    <option value="5130 Unallocable between 5110 and 5120">5130 Unallocable between 5110 and 5120</option>
+                                    <option value="5200 Taxes on use of goods and perform activities">5200 Taxes on use of goods and perform activities</option>
+                                    <option value="5300 Unallocable between 5100 and 5200">5300 Unallocable between 5100 and 5200</option>
+                                    <option value="6000 Taxes other than 1000, 2000, 3000, 4000 and 5000">6000 Taxes other than 1000, 2000, 3000, 4000 and 5000</option>
+                                    <option value="Corporate income tax">Corporate income tax</option>
+                                    <option value="Excise taxes collected on behalf of the SACU Common Revenue Pool">Excise taxes collected on behalf of the SACU Common Revenue Pool</option>
+                                    <option value="Gambling levy">Gambling levy</option>
+                                    <option value="Import duties collected on behalf of the SACU Common Revenue Pool">Import duties collected on behalf of the SACU Common Revenue Pool</option>
+                                    <option value="Mining and other royalties">Mining and other royalties</option>
+                                    <option value="Non-tax revenue: Fines, penalties and forfeits">Non-tax revenue: Fines, penalties and forfeits</option>
+                                    <option value="Non-tax revenue: Grants">Non-tax revenue: Grants</option>
+                                    <option value="Non-tax revenue: Interest and dividends">Non-tax revenue: Interest and dividends</option>
+                                    <option value="Non-tax revenue: Miscellaneous and unidentified revenue">Non-tax revenue: Miscellaneous and unidentified revenue</option>
+                                    <option value="Non-tax revenue: Other property income">Non-tax revenue: Other property income</option>
+                                    <option value="Non-tax revenue: Property income">Non-tax revenue: Property income</option>
+                                    <option value="Non-tax revenue: Rents and royalties">Non-tax revenue: Rents and royalties</option>
+                                    <option value="Non-tax revenue: Sales of goods and services">Non-tax revenue: Sales of goods and services</option>
+                                    <option value="Personal income tax">Personal income tax</option>
+                                    <option value="SACU revenue">SACU revenue</option>
+                                    <option value="Total non-tax revenue">Total non-tax revenue</option>
+                                    <option value="Total non-tax revenue excluding grants">Total non-tax revenue excluding grants</option>
+                                    <option value="Total tax and non-tax revenue">Total tax and non-tax revenue</option>
+                                    <option value="Total tax and non-tax revenue excluding grants">Total tax and non-tax revenue excluding grants</option>
+                                    <option value="Total tax revenue">Total tax revenue</option>
+                                    <option value="Total tax revenues not including social security contributions">Total tax revenues not including social security contributions</option>
+                                    <option value="VAT - Domestic (Gross)">VAT - Domestic (Gross)</option>
+                                    <option value="VAT - Domestic (Net)">VAT - Domestic (Net)</option>
+                                    <option value="VAT - Domestic (Refunds)">VAT - Domestic (Refunds)</option>
+                                    <option value="VAT on imports">VAT on imports</option>
+                                    <option value="Water royalties">Water royalties</option>
+                                    <option value="Withholding tax">Withholding tax</option>     
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select Year :</b> </label><br>
+                        <input type="number" class="form-control" placeholder="Enter year" id="year" name="year">
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <button  class="btn btn-primary form-control" onclick="send_data()">Predict Tax</button>
+                    </div>
+                </form>
+                <br>
+                
+                <div class="row">
+                    <div class="col-12" style="text-align: center">
+                        <h5><span id="prediction"></span></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    function send_data() {
+        // Prevent form submission
+        event.preventDefault();
+    
+        // Send data via AJAX
+        $.ajax({
+            type: 'POST',
+            url: '{% url "predict" %}',  
+            data: {
+                revenue_category: $('#revenue_category').val(),
+                year: $('#year').val(),
+                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+                action:'post'
+            },
+            success: function(json) {
+                // Display predicted value
+                $('#prediction').html('<p>Predicted revenue value: <strong>M' + json.predicted_value + '</strong></p>' + 
+                                      '<p>Revenue Category: <strong>' + $('#revenue_category').val() + '</strong>.</p>' +
+                                      '<p>Year: <strong>' + $('#year').val() + '</strong></p>');
+            },
+            
+            error: function(xhr, status, error) {
+                
+            }
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
